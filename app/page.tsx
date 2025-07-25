@@ -54,8 +54,8 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     fetchStockData()
-    // const interval = setInterval(fetchStockData, 15000)
-    // return () => clearInterval(interval)
+    const interval = setInterval(fetchStockData, 15000)
+    return () => clearInterval(interval)
   }, [])
 
   const uniqueSectors = useMemo(() => ['All', ...new Set(stocks.map(s => s.sector))], [stocks])
