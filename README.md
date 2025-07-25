@@ -1,8 +1,3 @@
----
-
-## ✅ Frontend – `README.md`
-
-```md
 # Stock Portfolio Dashboard – Frontend
 
 A responsive and clean stock portfolio dashboard built with Next.js and DaisyUI. It fetches stock data from the backend, calculates portfolio metrics, and displays them via cards, charts, and tables.
@@ -16,8 +11,6 @@ A responsive and clean stock portfolio dashboard built with Next.js and DaisyUI.
 - React Table
 
 ---
-
-## 🚀 Getting Started
 
 ### 1. Clone the Repository
 
