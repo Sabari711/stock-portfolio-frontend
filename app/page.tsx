@@ -1,4 +1,3 @@
-/* eslint no-use-before-define: 0 */  // 
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react'
@@ -34,7 +33,7 @@ export default function PortfolioPage() {
   const fetchStockData = async () => {
     try {
       const joined = symbols.join(',')
-      const res = await fetch(`http://localhost:4000/api/portfolio/quotes?symbols=${joined}`)
+      const res = await fetch(`https://stock-portfolio-backend-flax.vercel.app/api/portfolio/quotes?symbols=${joined}`)
       const json = await res.json()
       const enriched = json.data.map((s: Stock) => ({
         ...s,
@@ -65,7 +64,7 @@ export default function PortfolioPage() {
   const totalValue = useMemo(() => filteredStocks.reduce((sum, s) => sum + s.cmp * s.quantity, 0), [filteredStocks])
   const totalGain = useMemo(() => totalValue - totalInvestment, [totalValue, totalInvestment])
 
-  const columns : any[] =[
+  const columns: any = useMemo(() => [
     { Header: 'Stock', accessor: 'name' },
     { Header: 'Purchase Price', accessor: 'purchasePrice', Cell: ({ value }: any) => `₹${value.toFixed(2)}` },
     { Header: 'Quantity', accessor: 'quantity' },
@@ -77,7 +76,7 @@ export default function PortfolioPage() {
     { Header: 'Gain/Loss', accessor: (row: Stock) => row.cmp * row.quantity - row.purchasePrice * row.quantity, id: 'gainLoss', Cell: ({ value }: any) => (<span className={classNames('font-semibold', { 'text-success': value >= 0, 'text-error': value < 0 })}>{value >= 0 ? '+' : '-'}₹{Math.abs(value).toFixed(2)}</span>) },
     { Header: 'P/E Ratio', accessor: 'peRatio' },
     { Header: 'Earnings', accessor: 'earnings', Cell: ({ value }: any) => `₹${value.toFixed(2)}` }
-  ]
+  ], [totalInvestment])
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: filteredStocks })
   const chartData = useMemo(() => filteredStocks.map((s) => ({ name: s.symbol, value: Number((s.purchasePrice * s.quantity).toFixed(2)) })), [filteredStocks])
